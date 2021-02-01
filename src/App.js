@@ -25,7 +25,7 @@ const App = (props)  => {
                     <Route path='/settings' component={Settings}/>
                 </div>
 
-                {/*<Profile/>*/}
+
             </div>
 
     );
