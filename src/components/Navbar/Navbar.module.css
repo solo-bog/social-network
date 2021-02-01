@@ -1,0 +1,24 @@
+.nav{
+    grid-area: n;
+    background-color: white;
+
+    border-right: 1px solid black;
+}
+
+.item{
+
+
+}
+
+.item a.active{
+    color:white ;
+    background-color: black;
+}
+
+.item a{
+    display: block;
+    color: black;
+    text-decoration: none;
+    text-transform: uppercase;
+    padding: 5px;
+}
