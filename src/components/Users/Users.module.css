@@ -1,0 +1,24 @@
+.userItem{
+    display: grid;
+    grid-template-areas: " photo info"
+                          "btn info ";
+    grid-template-columns: 170px 1fr;
+    grid-template-rows: 150px 50px;
+}
+
+.userPhoto{
+    grid-area: photo;
+}
+
+.userPhoto img{
+    width: 100%;
+}
+
+.userActionBtn{
+    grid-area: btn;
+}
+
+.userInfo{
+    grid-area: info;
+}
+
