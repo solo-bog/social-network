@@ -22,3 +22,22 @@
     grid-area: info;
 }
 
+.pageNumber{
+    display: inline-block;
+    margin-right: 5px;
+    text-align: center;
+    width: 40px;
+    border-radius: 20px;
+    border: 1px solid black;
+}
+
+.pageNumber:hover{
+    cursor: pointer;
+}
+
+.selectedPage{
+    color: white;
+    background-color: black;
+}
+
+
