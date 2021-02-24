@@ -1,6 +1,7 @@
 import React from 'react'
 import styles from './Users.module.css'
-import userImage from '../../assets/images/user.svg'
+import Preloader from "../Preloader/Preloader";
+import UsersList from "./UsersList/UsersList";
 
 const Users = (props) => {
 
@@ -14,11 +15,11 @@ const Users = (props) => {
         if(i===0){
             continue;
         }
-        pagination.push(<span onClick={(e) => {
+        pagination.push(<span key={i} onClick={(e) => {
             props.onPageChanged(i)
         }} className={`${styles.pageNumber}  ${props.currentPage === i ? styles.selectedPage : ''}`}>{i}</span>)
     }
-    pagination.push(<span>...</span>);
+    pagination.push(<span key={0}>...</span>);
     return (<div>
             <div>
                 {
@@ -27,30 +28,9 @@ const Users = (props) => {
 
 
             </div>
-            <div className="usersList">
-                {
-                    props.users.map(u => <div key={u.id} className={styles.userItem}>
-                        <div className={styles.userPhoto}><img
-                            src={u.photos.small != null ? u.photos.small : userImage} alt=""/></div>
-                        <div className={styles.userActionBtn}>
-                            {u.followed
-                                ? <button onClick={() => {
-                                    props.unfollow(u.id)
-                                }}>Unfollow</button>
-                                : <button onClick={() => {
-                                    props.follow(u.id)
-                                }}>Follow</button>
-                            }
-                        </div>
-                        <div className={styles.userInfo}>
-                            <div className={styles.userName}>{u.name}</div>
-                        </div>
-                    </div>)
-                }
-            </div>
-            <div className="loadMoreBtn">
-                <button>Load More</button>
-            </div>
+            {props.isFetching ? <Preloader/> : <UsersList users={props.users} follow={props.follow} unfollow={props.unfollow}/>}
+
+
         </div>
     );
 

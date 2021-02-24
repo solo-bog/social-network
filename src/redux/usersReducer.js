@@ -3,17 +3,14 @@ const UNFOLLOW = 'UNFOLLOW';
 const SET_USERS = 'SET_USERS';
 const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
 const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT';
+const TOGGLE_IS_FETCHING = 'TOOGLE_IS_FETCHING';
 
 let initialState = {
-    users : [
-        /*{id:1,photo: "https://hornews.com/upload/images/akter.jpeg",followed:true, fullName:"Andrey", status: "I'm a boss", location:{city:"Kiev",country:"Ukraine"}},
-        {id:2,photo:"https://ona-znaet.ru/_pu/19/72349760.jpg", followed:false, fullName:"Oleg", status: "I'm a tomato", location:{city:"Berlin",country:"Germany"}},
-        {id:3,photo:"https://www.infoniac.ru/upload/medialibrary/2af/2af1c4e727bb59f7b8ac632cd343d594.jpg", followed:false, fullName:"Anton", status: "I'm a rabbit", location:{city:"Rome",country:"Italy"}},
-        {id:4,photo:"https://d2p8jjwwnx090z.cloudfront.net/566/203/371/-69996995-1t7nemh-jdhb82ra01be6bk/original/COhrPJYTohM.jpg", followed:true, fullName:"Sofia", status: "I'm a cat", location:{city:"Lutsk",country:"Ukraine"}}
-        */],
-    pageSize:50,
+    users : [],
+    pageSize: 10,
     totalUsersCount:0,
-    currentPage:1
+    currentPage:1,
+    isFetching:true
 };
 
 const usersReducer = (state = initialState, action) => {
@@ -60,6 +57,12 @@ const usersReducer = (state = initialState, action) => {
                 totalUsersCount: action.totalUsersCount
             }
         }
+        case TOGGLE_IS_FETCHING: {
+            return {
+                ...state,
+                isFetching: action.isFetching
+            }
+        }
 
         default:
             return state;
@@ -69,41 +72,16 @@ const usersReducer = (state = initialState, action) => {
 }
 
 
-export const followAC = (userID) => {
+export const follow = (userID) => ({type: FOLLOW, userID})
 
-    return {
-        type: FOLLOW,
-        userID:userID
-    }
-}
+export const unfollow = (userID)=>({ type: UNFOLLOW, userID })
 
-export const unfollowAC = (userID)=>{
+export const setUsers = (users) =>({ type: SET_USERS, users })
 
-    return{
-        type: UNFOLLOW,
-        userID: userID
-    }
-}
+export const setCurrentPage = (currentPage) => ({ type: SET_CURRENT_PAGE, currentPage })
 
-export const setUsersAC = (users) =>{
-    return{
-        type: SET_USERS,
-        users: users
-    }
-}
+export const setTotalUsersCount = (totalUsersCount) => ( {type: SET_TOTAL_USERS_COUNT, totalUsersCount })
 
-export const setCurrentPageAC = (currentPage) =>{
-    return {
-        type: SET_CURRENT_PAGE,
-        currentPage: currentPage
-    }
-}
-
-export const setTotalUsersCountAC = (totalUsersCount) => {
-    return {
-        type: SET_TOTAL_USERS_COUNT,
-        totalUsersCount: totalUsersCount
-    }
-}
+export const toggleIsFetching = (isFetching) => ( {type:TOGGLE_IS_FETCHING, isFetching })
 
 export default usersReducer;
