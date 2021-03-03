@@ -2,7 +2,8 @@ import React from 'react'
 import styles from './UsersList.module.css'
 import userImage from "../../../assets/images/user.svg";
 import {NavLink} from "react-router-dom";
-import {follow, unfollow} from "../../../api/api";
+import {followRequest, unfollowRequest} from "../../../api/api";
+import {followAccept} from "../../../redux/usersReducer";
 
 const UsersList = (props) => {
     return <div className="usersList">
@@ -13,25 +14,10 @@ const UsersList = (props) => {
                 <div className={styles.userActionBtn}>
                     {u.followed
                         ? <button onClick={() => {
-                            props.toggleFollowingProgress(true,u.id)
-                            unfollow(u.id).then(data => {
-                                if(data.resultCode === 0){
-                                    props.unfollow(u.id)
-                                }
-                                props.toggleFollowingProgress(false,u.id)
-
-                            })
+                            props.unfollowAccept(u.id)
                         }} disabled={props.followingInProgress.some(id => id===u.id)}>Unfollow</button>
                         : <button onClick={() => {
-                            props.toggleFollowingProgress(true,u.id)
-                            follow(u.id).then(data => {
-                                if(data.resultCode === 0){
-                                    props.follow(u.id)
-                                }
-                                props.toggleFollowingProgress(false,u.id)
-
-                            })
-
+                            props.followAccept(u.id)
                         }} disabled={props.followingInProgress.some(id => id === u.id)}>Follow</button>
                     }
                 </div>
