@@ -6,6 +6,7 @@
     width: 40px;
     border-radius: 20px;
     border: 1px solid black;
+    user-select: none;
 }
 
 .pageNumber:hover{
