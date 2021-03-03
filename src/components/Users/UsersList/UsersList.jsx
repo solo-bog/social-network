@@ -2,6 +2,7 @@ import React from 'react'
 import styles from './UsersList.module.css'
 import userImage from "../../../assets/images/user.svg";
 import {NavLink} from "react-router-dom";
+import {follow, unfollow} from "../../../api/api";
 
 const UsersList = (props) => {
     return <div className="usersList">
@@ -12,11 +13,26 @@ const UsersList = (props) => {
                 <div className={styles.userActionBtn}>
                     {u.followed
                         ? <button onClick={() => {
-                            props.unfollow(u.id)
-                        }}>Unfollow</button>
+                            props.toggleFollowingProgress(true,u.id)
+                            unfollow(u.id).then(data => {
+                                if(data.resultCode === 0){
+                                    props.unfollow(u.id)
+                                }
+                                props.toggleFollowingProgress(false,u.id)
+
+                            })
+                        }} disabled={props.followingInProgress.some(id => id===u.id)}>Unfollow</button>
                         : <button onClick={() => {
-                            props.follow(u.id)
-                        }}>Follow</button>
+                            props.toggleFollowingProgress(true,u.id)
+                            follow(u.id).then(data => {
+                                if(data.resultCode === 0){
+                                    props.follow(u.id)
+                                }
+                                props.toggleFollowingProgress(false,u.id)
+
+                            })
+
+                        }} disabled={props.followingInProgress.some(id => id === u.id)}>Follow</button>
                     }
                 </div>
                 <div className={styles.userInfo}>

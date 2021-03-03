@@ -28,7 +28,7 @@ const Users = (props) => {
 
 
             </div>
-            {props.isFetching ? <Preloader/> : <UsersList users={props.users} follow={props.follow} unfollow={props.unfollow}/>}
+            {props.isFetching ? <Preloader/> : <UsersList followingInProgress={props.followingInProgress} toggleFollowingProgress={props.toggleFollowingProgress} users={props.users} follow={props.follow} unfollow={props.unfollow}/>}
 
 
         </div>
