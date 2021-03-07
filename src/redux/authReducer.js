@@ -1,10 +1,13 @@
-const SET_USER_DATA = 'SET_USER_DATA'
+import {AuthAPI} from "../api/api";
 
+const SET_USER_DATA = 'SET_USER_DATA'
+const SET_FORM_ERROR= 'SET_FORM_ERROR'
 let initialState = {
     userId : null,
     email: null,
     login:null,
-    isAuth:false
+    isAuth:false,
+    formError:null
 };
 
 const authReducer = (state = initialState, action) => {
@@ -13,7 +16,13 @@ const authReducer = (state = initialState, action) => {
             return  {
                 ...state,
                 ...action.data,
-                isAuth: true
+            };
+
+        }
+        case SET_FORM_ERROR:{
+            return  {
+                ...state,
+                formError:action.error,
             };
 
         }
@@ -27,9 +36,50 @@ const authReducer = (state = initialState, action) => {
 }
 
 
-export const setAuthUserData = (userId,email,login) => ({
+export const setAuthUserData = (userId,email,login,isAuth) => ({
     type:SET_USER_DATA,
-    data:{userId,email,login}
+    data:{userId,email,login,isAuth}
 })
+
+export const setFormError = (text) => ({
+    type:SET_FORM_ERROR,
+    error:text
+})
+export const checkAuth = () => {
+    return (dispatch) => {
+        AuthAPI.getAuthStatus().then(data => {
+            if(data.resultCode===0){
+                let {id,login,email} = data.data
+                dispatch(setAuthUserData(id,email,login,true))
+            }
+        })
+    }
+}
+
+export const login = (email,password,rememberMe) => {
+    return  (dispatch) => {
+         AuthAPI.login(email,password,rememberMe).then(data => {
+            if(data.resultCode===0){
+                dispatch(checkAuth())
+                dispatch(null)
+            }
+            else {
+                let message = data.messages[0] || 'Some error'
+                 dispatch(setFormError(message))
+
+            }
+        })
+    }
+}
+
+export const logout = () => {
+    return (dispatch) => {
+        AuthAPI.logout().then(data => {
+            if(data.resultCode===0){
+                dispatch(setAuthUserData(null,null,null,false))
+            }
+        })
+    }
+}
 
 export default authReducer;
