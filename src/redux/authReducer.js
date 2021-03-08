@@ -46,8 +46,8 @@ export const setFormError = (text) => ({
     error:text
 })
 export const checkAuth = () => {
-    return (dispatch) => {
-        AuthAPI.getAuthStatus().then(data => {
+    return async  (dispatch) => {
+          await AuthAPI.getAuthStatus().then(data => {
             if(data.resultCode===0){
                 let {id,login,email} = data.data
                 dispatch(setAuthUserData(id,email,login,true))
@@ -58,14 +58,14 @@ export const checkAuth = () => {
 
 export const login = (email,password,rememberMe) => {
     return  (dispatch) => {
-         AuthAPI.login(email,password,rememberMe).then(data => {
+        AuthAPI.login(email,password,rememberMe).then(data => {
             if(data.resultCode===0){
                 dispatch(checkAuth())
-                dispatch(null)
+                dispatch(setFormError(null))
             }
             else {
                 let message = data.messages[0] || 'Some error'
-                 dispatch(setFormError(message))
+                dispatch(setFormError(message))
 
             }
         })
