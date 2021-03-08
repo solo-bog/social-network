@@ -1,20 +1,21 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 
 const ProfileStatus = (props) => {
     let [editMode,setEditMode] = useState(false)
     let [status,setStatus] = useState(props.status)
 
+    useEffect(()=>{
+        setStatus(props.status)
+    },[props.status])
+
    const activateEditMode = () => {
-        debugger
         setEditMode(true)
     }
    const deactivateEditMode = () => {
-        debugger
         setEditMode(false)
         props.updateProfileStatus(status)
     }
     const onChangeStatus = (e) => {
-        debugger
         setStatus(e.currentTarget.value)
     }
     /*componentDidUpdate(prevProps, prevState,) {
