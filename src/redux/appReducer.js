@@ -12,7 +12,7 @@ const appReducer = (state = initialState, action) => {
             return  {
                 ...state,
                 initialized: true
-            };
+            }
 
         }
         default:
@@ -29,9 +29,7 @@ export const initializedSuccess = () => ({
 
 export const initialize = () => (dispatch) => {
     let promise = dispatch(checkAuth())
-    debugger
     Promise.all([promise]).then(()=>{
-            debugger
             dispatch(initializedSuccess())
         }
 
