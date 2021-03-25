@@ -22,7 +22,7 @@ class UsersContainer extends React.Component{
 
     onPageChanged = (pageNumber) => {
         this.props.setCurrentPage(pageNumber)
-        this.props.getUsers(pageNumber,this.props.pageSize)
+        this.props.getUsersRequest(pageNumber,this.props.pageSize)
     }
     render(){
         return <Users unfollowAccept={this.props.unfollowAccept} followAccept={this.props.followAccept} followingInProgress={this.props.followingInProgress} totalUsersCount={this.props.totalUsersCount} pageSize={this.props.pageSize} currentPage={this.props.currentPage} users={this.props.users} isFetching={this.props.isFetching} onPageChanged={this.onPageChanged} />

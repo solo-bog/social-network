@@ -5,7 +5,7 @@ const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.0/',
     withCredentials:true,
     headers:{
-        "API-KEY":'f317a11f-4f51-4707-9cbe-dc9584cde29a'
+        "API-KEY":'4d15cfab-86d6-416c-b19b-dc3aef73fd8b'
     }
 });
 
@@ -13,16 +13,16 @@ export const usersAPI = {
     getUsers (currentPage,pageSize) {
         return instance.get(`users?page=${currentPage}&count=${pageSize}`)
             .then(response => response.data)
+    },
+    followRequest (userId) {
+        return instance.post(`follow/${userId}`).then(response => response.data)
+    },
+    unfollowRequest (userId) {
+        return instance.delete(`follow/${userId}`).then(response => response.data)
     }
 }
 
-export const followRequest = (userId) => {
-    return instance.post(`follow/${userId}`).then(response => response.data)
-}
 
-export const unfollowRequest = (userId) => {
-    return instance.delete(`follow/${userId}`).then(response => response.data)
-}
 
 export const ProfileAPI = {
     getProfileInfo(userId) {
@@ -33,10 +33,16 @@ export const ProfileAPI = {
     },
     updateStatus(status) {
         return instance.put(`profile/status`,{status:status}).then(response => response.data)
+    },
+    uploadPhoto(photoFile){
+        let formData = new FormData()
+        formData.append("image",photoFile.files[0])
+        return instance.post('profile/photo',formData,{
+            headers:{
+                'Content-Type': 'multipart/form-data'
+            }
+        }).then(response => response.data)
     }
-}
-export const getProfileInfo = (userId) => {
-    return instance.get(`profile/status/`+userId).then(response => response.data)
 }
 
 export const AuthAPI ={
@@ -51,3 +57,5 @@ export const AuthAPI ={
     }
 
 }
+
+

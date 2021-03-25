@@ -1,5 +1,5 @@
 import {ProfileAPI} from "../api/api"
-
+import defaultPhoto from "../assets/images/user.svg"
 const ADD_POST = 'ADD-POST'
 const SET_USER_PROFILE = 'SET_USER_PROFILE'
 const UPDATE_USER_STATUS = 'UPDATE_USER_STATUS'
@@ -11,7 +11,12 @@ let initialState = {
         {id:2, message:'Baron Corbin is my brother. He is cool dude.',likesCount:12},
         {id:3, message:'I am very happy girl.',likesCount:32},
         {id:4, message:"Hi, i'm Alice. It is my first post in this network.",likesCount:2}],
-    profile: null,
+    profile: {
+        photos: {
+            small: defaultPhoto,
+            large: defaultPhoto
+        }
+    },
     status:""
 };
 
@@ -58,60 +63,48 @@ const profileReducer = (state = initialState, action) => {
 }
 
 
-export const addPost = (text) => {
-
-    return {
-        type: ADD_POST,
-        postText:text
-    }
-}
-
-export const deletePost = (postId) => {
-
-    return {
-        type: DELETE_POST,
-        postId:postId
-    }
-}
-
-
-
-export const updateStatus = (status)=>{
-
-    return{
-        type: UPDATE_USER_STATUS,
-        status
-    }
-}
-
+export const addPost = (postText) => ({type: ADD_POST, postText})
+export const deletePost = (postId) => ({type: DELETE_POST, postId})
+export const updateStatus = (status)=>({type: UPDATE_USER_STATUS, status})
 export const setUserProfile = (profile) => ({type:SET_USER_PROFILE,profile});
 
 export const getProfile = (userId) => {
-    return (dispatch) => {
-        ProfileAPI.getProfileInfo(userId).then(data => {
-            dispatch(setUserProfile(data))
-        })
+    return async (dispatch) => {
+        let data = await ProfileAPI.getProfileInfo(userId)
+        dispatch(setUserProfile(data))
     }
 }
 
 export const getStatus = (userId) => {
-    return (dispatch) => {
-        ProfileAPI.getStatus(userId).then(data => {
-            dispatch(updateStatus(data))
-        })
+    return async (dispatch) => {
+        let data = await ProfileAPI.getStatus(userId)
+        dispatch(updateStatus(data))
     }
 }
 
 export const updateProfileStatus = (text) => {
-    return (dispatch) => {
-        ProfileAPI.updateStatus(text).then(data =>{
+    return async (dispatch) => {
+        let data = await ProfileAPI.updateStatus(text)
+        if(data.resultCode === 0){
+            dispatch(updateStatus(text))
+        }
+        else {
+            console.log("error:"+data.messages)
+        }
+    }
+}
+
+export const uploadPhoto = (photoFile) => {
+    return async (dispatch,getState) => {
+        try{
+            let data = await ProfileAPI.uploadPhoto(photoFile)
             if(data.resultCode === 0){
-                dispatch(updateStatus(text))
+                 dispatch(getProfile(getState().profilePage.profile.userId))
             }
-            else {
-                console.log("error:"+data.messages)
-            }
-        })
+        }
+        catch (e) {
+            console.log(e)
+        }
     }
 }
 
