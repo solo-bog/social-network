@@ -1,7 +1,4 @@
-.profile_img img{
-    height: 300px;
-}
-
-.descriptionBlock{
+.profileInfo{
+    display: flex;
     padding: 10px;
 }

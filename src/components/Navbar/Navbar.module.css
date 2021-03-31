@@ -1,7 +1,6 @@
 .nav{
     grid-area: n;
     background-color: white;
-
     border-right: 1px solid black;
 }
 
@@ -20,5 +19,7 @@
     color: black;
     text-decoration: none;
     text-transform: uppercase;
+    text-align: center;
+    font-size: 20px;
     padding: 5px;
 }

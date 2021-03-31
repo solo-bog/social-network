@@ -1,24 +1,27 @@
-import {applyMiddleware, combineReducers, compose, createStore} from "redux";
-import profileReducer from "./profileReducer";
-import dialogsReducer from "./dialogsReducer";
-import usersReducer from "./usersReducer";
-import authReducer from "./authReducer";
-import appReducer from "./appReducer";
-import thunk from "redux-thunk";
+import {
+  applyMiddleware, combineReducers, compose, createStore,
+} from 'redux';
+import thunk from 'redux-thunk';
+import profileReducer from './profileReducer';
+import dialogsReducer from './dialogsReducer';
+import usersReducer from './usersReducer';
+import authReducer from './authReducer';
+import appReducer from './appReducer';
 
-let reducers = combineReducers({
-    profilePage: profileReducer,
-    dialogsPage: dialogsReducer,
-    usersPage:usersReducer,
-    auth:authReducer,
-    app:appReducer
+const reducers = combineReducers({
+  profilePage: profileReducer,
+  dialogsPage: dialogsReducer,
+  usersPage: usersReducer,
+  auth: authReducer,
+  app: appReducer,
 });
 const enhancers = compose(
-    applyMiddleware(thunk),
-    window.devToolsExtension ? window.__REDUX_DEVTOOLS_EXTENSION__() : (f) => f
+  applyMiddleware(thunk),
+  // eslint-disable-next-line no-underscore-dangle
+  window.devToolsExtension ? window.__REDUX_DEVTOOLS_EXTENSION__() : (f) => f,
 );
 
-let store = createStore(reducers,enhancers);
+const store = createStore(reducers, enhancers);
 window.store = store;
 
 export default store;

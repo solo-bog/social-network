@@ -13,6 +13,10 @@
     cursor: pointer;
 }
 
+.pageNumber:focus{
+    outline: 1px solid black;
+}
+
 .selectedPage{
     color: white;
     background-color: black;

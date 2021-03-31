@@ -1,16 +1,21 @@
-import React from 'react'
-import Preloader from "../Preloader/Preloader";
-import UsersList from "./UsersList/UsersList";
-import Pagination from "./../common/Pagination/Pagination"
+import React from 'react';
+import Preloader from '../Preloader/Preloader';
+import UsersList from './UsersList/UsersList';
+import Pagination from '../common/Pagination/Pagination';
 
-const Users = (props) => {
-    return (<div>
-            <div>
-                <Pagination totalUsersCount={props.totalUsersCount} pageSize={props.pageSize} currentPage={props.currentPage} onPageChanged={props.onPageChanged}/>
-            </div>
-            {props.isFetching ? <Preloader/> : <UsersList unfollowAccept={props.unfollowAccept} followAccept={props.followAccept} followingInProgress={props.followingInProgress} users={props.users} />}
-        </div>
-    )
-}
+const Users = ({
+  totalUsersCount, pageSize, currentPage,
+  onPageChanged, isFetching, unfollowAccept,
+  followAccept, followingInProgress, users,
+}) => (
+  <div>
+    <div>
+      <Pagination totalUsersCount={totalUsersCount} pageSize={pageSize} currentPage={currentPage} onPageChanged={onPageChanged} />
+    </div>
+    {isFetching
+      ? <Preloader />
+      : <UsersList unfollowAccept={unfollowAccept} followAccept={followAccept} followingInProgress={followingInProgress} users={users} />}
+  </div>
+);
 
-export default Users
+export default Users;
